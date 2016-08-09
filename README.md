@@ -1,0 +1,1 @@
+# hg_hook_check_php_syntax
