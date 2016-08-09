@@ -14,4 +14,5 @@ pre-status = \
 ```
 
 Firstly I check what is the current branch.
+
 Then I call check_php_syntax shell file to check php syntax of all changed php files. 
