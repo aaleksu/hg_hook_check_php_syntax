@@ -1,0 +1,38 @@
+#!/bin/bash
+
+php_files=`hg diff --stat | grep ".php" | sed -e 's/^\s//' | sed -e 's/\s*|\s*[[:digit:]].*//g'`
+ORANGE='\033[0;33m'
+RED='\033[0;31m'
+GREEN='\033[0;32m'
+END_COLOR='\033[0m'
+if [ -z "$php_files" ]
+then
+	echo "${ORANGE}No php files to commit${END_COLOR}\n"
+	exit 0
+fi
+
+echo "\n-------- CHECK SYNTAX --------\n"
+#echo "$php_files"
+for file in $php_files; do
+	if [ -f "$file" ]
+	echo "$file"
+	then
+		error=`php -l "$file" | grep "Parse error"`
+		if [ -z "$error" ]
+		then
+			error=`php -l "$file" | grep "Errors parsing"`
+		fi
+		if [ ! -z "$error" ]
+		then
+			echo "${RED}"
+			echo "${error}"
+		else
+			echo "${GREEN}"
+			echo "Ok"
+		fi
+		echo "${END_COLOR}\n"
+	else
+		echo "Not a file"
+	fi
+done
+echo "\n------ END CHECK SYNTAX ------\n"
